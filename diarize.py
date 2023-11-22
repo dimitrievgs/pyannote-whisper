@@ -8,9 +8,6 @@ import json
 # https://gist.github.com/hbredin/049f2b629700bcea71324d2c1e7f8337
 # https://vas3k.club/post/18916/
 
-# Указываем путь до файла с конфигом, он должен быть в той же директории, как сказано на шаге 3.
-#pipeline = Pipeline.from_pretrained("config.yaml")
-
 # Open the JSON file for reading
 with open("settings.json", "r") as json_file:
     # Load the JSON data from the file
@@ -19,20 +16,22 @@ with open("settings.json", "r") as json_file:
 # Extract the tokens from the JSON data
 token = settings["token"]
 
-speaker_diarization = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1", 
-                                            use_auth_token=token)
+# Указываем путь до файла с конфигом, он должен быть в той же директории, как сказано на шаге 3.
+# in case of `OSError: [WinError 1314]` see windows_symbolic_links.md
+#speaker_diarization = Pipeline.from_pretrained("config.yaml")
+speaker_diarization = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1", use_auth_token=token)
 
 # Указываем название модели large и путь до директории с whisper-моделями из шага 1.
-path_to_store_model = './models' # '/Users/guschin/whisper.cpp/models'
+path_to_store_model = '/Users/guschin/whisper.cpp/models' #'./models' # '/Users/guschin/whisper.cpp/models'
 model = Model('large', path_to_store_model, n_threads=6)
 
 
-speakers_Nr = sys.argv[1] # None
+# speakers_Nr = sys.argv[1] # None
 
 output_file_1 = None
 output_file_2 = None
 
-for audio_file_name in sys.argv[2:]:
+for audio_file_name in sys.argv[1:]:
     try:
         print("-----------------")
         print("analyze file: " + audio_file_name)

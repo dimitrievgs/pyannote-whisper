@@ -5,7 +5,7 @@ pipeline:
     embedding: speechbrain/spkrec-ecapa-voxceleb
     embedding_batch_size: 1 # уменьшение с 32 до 1 внезапно
     embedding_exclude_overlap: true
-    segmentation: pytorch_model.bin
+    segmentation: pyannote/segmentation@2022.07 # pytorch_model.bin
     segmentation_batch_size: 32
 
 params:
